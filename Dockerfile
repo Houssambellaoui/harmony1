@@ -1,11 +1,17 @@
-FROM node:20
+# Use a base image with Node.js 16 and Alpine Linux
+FROM node:16-alpine
 
-WORKDIR /app
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
+# Copy package.json and package-lock.json (if present) to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --force
+
+# Copy the entire project to the working directory
 COPY . .
 
-RUN npm install
-
-EXPOSE 5000
-
-CMD ["npm", "run", "start:dev"]
+# Start the backend service
+CMD ["npm", "start"]
